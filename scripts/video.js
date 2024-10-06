@@ -32,10 +32,12 @@ const loadCategories = () => {
 }
 
 
-
-const loadVideos = () => {
+//searchText="" default value empty string
+const loadVideos = (searchText= "") => {
     //fetch the data
-    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+    // fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
+
     .then(res => res.json())
     .then((data) => displayVideos(data.videos))
     .then((error) => console.log(error))
@@ -61,6 +63,31 @@ const loadCategoryVideos = (id) => {
     .then((error) => console.log(error))
 }
 
+
+const loadDetails = async(videoId) => {
+    // console.log(videoId)
+
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    // console.log(data)
+    displayDetails(data.video)
+}
+const displayDetails = (video) => {
+    console.log(video)
+    const detailContainer = document.getElementById("modal-content")
+
+    detailContainer.innerHTML = `
+        <img src="${video.thumbnail}" />
+        <p>${video.description}</p>
+    `;
+
+    //way-1
+    // document.getElementById("showModalData").click();
+    
+    //way-2
+    document.getElementById("customModal").showModal();//showModal() eta daisy ui diyeche. showModal() by default JS DOM e nai....
+}
 
 
 
@@ -143,7 +170,7 @@ const displayVideos = (videos) => {
 
             </div>
             
-            
+            <p> <button onclick="loadDetails('${video.video_id}')" class="btn btn-sm btn-error text-white">Details</button> </p>
 
         </div>
 
@@ -187,7 +214,11 @@ const displayCategories = (categories) => {
 }
 
 
-
+document.getElementById("search-input").addEventListener("keyup", (eee)=>{
+    // console.log(eee.target.value)
+    loadVideos(eee.target.value)
+})
+    
 loadCategories()
 loadVideos()
 
