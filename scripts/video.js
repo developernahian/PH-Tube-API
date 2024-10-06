@@ -19,7 +19,6 @@ const removeActiveClass = () => {
 
 
 
-console.log("Hello, World!");
 //1 - fetch, Load and show catagories on html
 
 //create loadCategories
@@ -32,7 +31,7 @@ const loadCategories = () => {
 }
 
 
-//searchText="" default value empty string
+//searchText="" default value empty
 const loadVideos = (searchText= "") => {
     //fetch the data
     // fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
